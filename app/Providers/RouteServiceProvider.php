@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * The path to your application's "home" route.
      *
@@ -24,6 +25,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('global', function (Request $request) {
+            return Limit::perMinute(500)
+                ->by($request->user()?->id ?: $request->ip())
+                ->response(function (Request $request, array $headers){
+                    return response('It is too many requests to be carried out', Respons::HTTP_TOO_MANY_REQUESTS, $headers);
+                });
+        });
+
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });

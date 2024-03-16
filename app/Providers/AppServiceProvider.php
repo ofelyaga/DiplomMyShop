@@ -30,12 +30,18 @@ class AppServiceProvider extends ServiceProvider
 
         DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
             // Notify development team... Do log system for telegram to know that queries is not
+            logger()
+                ->channel('telegram')
+                ->debug('whenQueryingForLongerThan:' . $connection->query()->toSql());
         });
 
         $kernel = app(Kernel::class);
         $kernel->whenRequestLifecycleIsLongerThan(
             CarbonInterval::seconds(4),
             function () {
+                logger()
+                    ->channel('telegram')
+                    ->debug('whenQueryingForLongerThan:' . request()->url());
             }
         );
     }

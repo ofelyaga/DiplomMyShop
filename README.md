@@ -58,5 +58,10 @@ npx tailwindcss -i resources/css/app.css -o resources/css/output.css --watch
 
 // для каждого роута создаём контроллер
 php artisan make:controller HomeController
+[]
+//создание пользователя
+php artisan tinker
+User::create(["name"=> "Ofelya","email"=>"of4ok@mail.ru","password"=>bcrypt("123456")]);
+
 
 

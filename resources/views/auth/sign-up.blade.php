@@ -6,6 +6,7 @@
         @csrf
         <x-forms.text-input
             name='name'
+            value="{{old('name')}}"
             placeholder='Имя'
             :isError="$errors->has('name')"
             required='true'
@@ -20,6 +21,7 @@
         <x-forms.text-input
             name='email'
             type='email'
+            value="{{old('email')}}"
             placeholder='E-mail'
             :isError="$errors->has('email')"
             required='true'

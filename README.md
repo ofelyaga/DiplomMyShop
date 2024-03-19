@@ -56,6 +56,7 @@ php artisan make:component Forms/PrimaryButton --view
 // инициализация файла tailwind (если поменять данные в кофиг.тайлвинд)
 npx tailwindcss -i resources/css/app.css -o resources/css/output.css --watch
 
-
+// для каждого роута создаём контроллер
+php artisan make:controller HomeController
 
 

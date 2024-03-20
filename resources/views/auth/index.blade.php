@@ -2,7 +2,8 @@
 
 @section('title',"Вход в аккаунт")
 @section('content')
-    <x-forms.auth-forms title="Вход в аккаунт" action="{{route('signIn')}}" method="POST">
+    <x-forms.auth-forms title="Вход в аккаунт"
+                        action="{{route('signIn')}}" method="POST">
         @csrf
         <x-forms.text-input
             name='email'

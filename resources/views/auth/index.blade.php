@@ -51,7 +51,7 @@
                        class="text-white hover:text-white/70 font-bold">Регистрация</a>
                 </div>
                 <div class="text-xxs md:text-xs">
-                    <a href="{{route('signUp')}}"
+                    <a href="{{route('password.request')}}"
                        class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
                 </div>
             </div>

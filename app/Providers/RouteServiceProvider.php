@@ -28,8 +28,12 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('global', function (Request $request) {
             return Limit::perMinute(500)
                 ->by($request->user()?->id ?: $request->ip())
-                ->response(function (Request $request, array $headers){
-                    return response('It is too many requests to be carried out', Respons::HTTP_TOO_MANY_REQUESTS, $headers);
+                ->response(function (Request $request, array $headers) {
+                    return response(
+                        'It is too many requests to be carried out',
+                        Respons::HTTP_TOO_MANY_REQUESTS,
+                        $headers
+                    );
                 });
         });
 

@@ -63,5 +63,16 @@ php artisan make:controller HomeController
 php artisan tinker
 User::create(["name"=> "Ofelya","email"=>"of4ok@mail.ru","password"=>bcrypt("123456")]);
 
+// Наткнулась на ошибку неработающих роутов, протестила в routeServiceProvider
+решила, почистив кэш с роутов
+php artisan route:clear
+
+после обновления env файла необходимо обновить конфиг
+php artisan config:cache
+
+// для добавления уведомления в при регистрации
+php artisan make:listener SendMailNewUserListener
+php artisan make:Notification NewUserNotification
+
 
 

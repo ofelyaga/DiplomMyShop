@@ -8,6 +8,9 @@
     @vite([ 'resources/css/output.css', 'resources/sass/main.sass', 'resources/js/app.js'])
 </head>
 <body class="antialiased">
+@if(session()->has('message'))
+    {{'message'}}
+@endif
 <main class="md:min-h-screen md:flex md:items-center md:justify-center py-16 lg:py-20">
     <div class="container">
         <div class="text-center">

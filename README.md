@@ -74,5 +74,8 @@ php artisan config:cache
 php artisan make:listener SendMailNewUserListener
 php artisan make:Notification NewUserNotification
 
-
+// добавление миграций
+php artisan make:migration add_columns_to_products
+php artisan make:migration add_columns_to_brands
+php artisan make:migration add_columns_to_categories
 

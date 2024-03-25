@@ -7,9 +7,8 @@
                 </a>
             </div><!-- /.footer-logo -->
             <div class="footer-copyright order-2 lg:order-1 basis-full lg:basis-1/3 mt-8 lg:mt-0">
-                <div class="text-[#999] text-xxs xs:text-xs sm:text-sm text-center">MyDiplomaShop, {{now()->year}} © Все
-                    права
-                    защещены.
+                <div class="text-[#999] text-xxs xs:text-xs sm:text-sm text-center">MyDiplomaShop, {{now()->year}}
+                    © Все права защищены.
                 </div>
             </div><!-- /.footer-copyright -->
             <div class="footer-social order-1 lg:order-2 basis-full sm:basis-1/2 lg:basis-1/3 mt-8 sm:mt-0">
@@ -94,6 +93,4 @@
                     <span class="ml-2 lg:ml-3 text-xxs font-semibold">Telegram</span>
                 </a>
             </div>
-        </div><!-- /.mmenu-inner -->
-    </div><!-- /.container -->
-</div>
+        </div>

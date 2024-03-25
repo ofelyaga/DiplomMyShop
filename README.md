@@ -79,3 +79,6 @@ php artisan make:migration add_columns_to_products
 php artisan make:migration add_columns_to_brands
 php artisan make:migration add_columns_to_categories
 
+// добавление и работа с библиотекой intervention/image
+composer require intervention/image
+

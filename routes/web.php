@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ThumbnailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,12 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::post('/reset-password', 'resetPassword')
         ->middleware('guest')->name('password.update');
+
+    Route::get('/storage/images/{dir}/{method}/{size}/{file}', ThumbnailController::class)
+        ->where('method', 'resize|crop|fit')
+        ->where('size', '\d+x\d+')
+        ->where('file', '.+\.(png|jpg|gif|bmp|jpeg)$')
+        ->name('thumbnail');
 });
 
 

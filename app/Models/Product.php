@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasThumbnail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Product extends Model
 {
     use HasFactory;
+    use HasThumbnail;
 
     protected $fillable = [
         'slug',
@@ -21,6 +23,11 @@ class Product extends Model
         'on_home_page',
         'sorting',
     ];
+
+    protected function thumbnailDir(): string
+    {
+        return 'products';
+    }
 
     public function scopeHomepage(Builder $query)
     {
@@ -45,4 +52,6 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+
 }

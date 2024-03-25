@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ThumbnailController extends Controller
@@ -27,7 +27,8 @@ class ThumbnailController extends Controller
             $storage->makeDirectory($newDirPath);
         }
         if (!$storage->exists($resultPath)) {
-            $image = Image::make($storage->path($realPath));
+            //$image = Image::make($storage->path($realPath));
+            $image = Image::read($storage->path($realPath));
             [$w, $h] = explode('x', $size);
             $image->{$method}($w, $h);
             $image->save($storage->path($resultPath));

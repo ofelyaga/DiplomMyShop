@@ -2,25 +2,25 @@
 
 namespace App\Traits\Models;
 
-use Illuminate\Support\Facades\File;
-
 trait HasThumbnail
 {
     abstract protected function thumbnailDir(): string;
 
     public function makeThumbnail(
         string $size,
+        string $path,
         string $method = 'resize'
     ): string {
-        return route('tumbnail', [
+        return route('thumbnail', [
             'size' => $size,
             'dir' => $this->thumbnailDir(),
             'method' => $method,
-            'file' => File::basename($this->{$this->thunbnailColumn()})
+            'file' => \File::basename($this->{$this->thumbnailColumn()}),
+            //'file' => $path,
         ]);
     }
 
-    protected function thunbnailColumn(): string
+    protected function thumbnailColumn(): string
     {
         return 'thumbnail';
     }

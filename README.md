@@ -81,4 +81,6 @@ php artisan make:migration add_columns_to_categories
 
 // добавление и работа с библиотекой intervention/image
 composer require intervention/image
+php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvider"
+
 

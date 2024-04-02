@@ -83,4 +83,5 @@ php artisan make:migration add_columns_to_categories
 composer require intervention/image
 php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvider"
 
-
+// для добавления пагинации от tailwind
+php artisan vendor:publish --tag=laravel-pagination

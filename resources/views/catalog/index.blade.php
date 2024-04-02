@@ -56,73 +56,22 @@
                             <!-- Filter item -->
                             <div>
                                 <h5 class="mb-4 text-sm 2xl:text-md font-bold">Бренд</h5>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-1">
-                                    <label for="filters-item-1" class="form-checkbox-label">Steelseries</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-2">
-                                    <label for="filters-item-2" class="form-checkbox-label">Razer</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-3">
-                                    <label for="filters-item-3" class="form-checkbox-label">Logitech</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-4">
-                                    <label for="filters-item-4" class="form-checkbox-label">HyperX</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-5">
-                                    <label for="filters-item-5" class="form-checkbox-label">Playstation</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-6">
-                                    <label for="filters-item-6" class="form-checkbox-label">XBOX</label>
-                                </div>
+                                @foreach($brands as $brand)
+                                    <div class="form-checkbox">
+                                        <input type="checkbox" id="filters-item-{{$brand->id}}">
+                                        <label for="filters-item-{{$brand->id}}"
+                                               class="form-checkbox-label">{{$brand->title}}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full !h-16 btn btn-outline btn-pink">Поиск</button>
                             </div>
                             <!-- Filter item -->
+
                             <div>
-                                <h5 class="mb-4 text-sm 2xl:text-md font-bold">Цвет</h5>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-9">
-                                    <label for="filters-item-9" class="form-checkbox-label">Белый</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-10">
-                                    <label for="filters-item-10" class="form-checkbox-label">Чёрный</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-11">
-                                    <label for="filters-item-11" class="form-checkbox-label">Желтый</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-12">
-                                    <label for="filters-item-12" class="form-checkbox-label">Розовый</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-13">
-                                    <label for="filters-item-13" class="form-checkbox-label">Красный</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-14">
-                                    <label for="filters-item-14" class="form-checkbox-label">Серый</label>
-                                </div>
-                            </div>
-                            <!-- Filter item -->
-                            <div>
-                                <h5 class="mb-4 text-sm 2xl:text-md font-bold">Подсветка</h5>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-7">
-                                    <label for="filters-item-7" class="form-checkbox-label">Без подсветки</label>
-                                </div>
-                                <div class="form-checkbox">
-                                    <input type="checkbox" id="filters-item-8">
-                                    <label for="filters-item-8" class="form-checkbox-label">З подсветкой</label>
-                                </div>
-                            </div>
-                            <div>
-                                <button type="reset" class="w-full !h-16 btn btn-outline">Сбросить фильтры</button>
+                                <a href="{{route('catalog', $category)}}" class="w-full !h-16 btn btn-outline">Сбросить
+                                    фильтры</a>
                             </div>
                         </form>
                     </aside>
@@ -132,7 +81,7 @@
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                             <div class="flex items-center gap-4">
                                 <div class="flex items-center gap-2">
-                                    <a href="catalog.html"
+                                    <a href="#"
                                        class="pointer-events-none inline-flex items-center justify-center w-10 h-10 rounded-md bg-card text-pink">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                              viewBox="0 0 52 52">
@@ -141,7 +90,7 @@
                                                   clip-rule="evenodd"/>
                                         </svg>
                                     </a>
-                                    <a href="catalog-list.html"
+                                    <a href="#"
                                        class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-card text-white hover:text-pink">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                              viewBox="0 0 52 52">
@@ -151,11 +100,11 @@
                                         </svg>
                                     </a>
                                 </div>
-                                <div class="text-body text-xxs sm:text-xs">Найдено: 25 товаров</div>
+                                <div class="text-body text-xxs sm:text-xs">Найдено: {{$products->total()}} товаров</div>
                             </div>
                             <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                                 <span class="text-body text-xxs sm:text-xs">Сортировать по</span>
-                                <form>
+                                <form action="{{route('catalog', $category)}}">
                                     <select
                                         class="form-select w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xxs sm:text-xs shadow-transparent outline-0 transition">
                                         <option value="умолчанию" class="text-dark">умолчанию</option>
@@ -170,20 +119,12 @@
                         <!-- Products list -->
                         <div
                             class="products grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 2xl:gap-x-8 gap-y-8 lg:gap-y-10 2xl:gap-y-12">
-                            @@include('parts/products/1.html')
-                            @@include('parts/products/2.html')
-                            @@include('parts/products/3.html')
-                            @@include('parts/products/4.html')
-                            @@include('parts/products/5.html')
-                            @@include('parts/products/6.html')
-                            @@include('parts/products/7.html')
-                            @@include('parts/products/8.html')
-                            @@include('parts/products/9.html')
+                            @each('catalog.shared.product', $products, 'item')
                         </div>
 
                         <!-- Page pagination -->
                         <div class="mt-12">
-                            @@include('parts/pagination.html')
+                            {{$products->withQueryString()->links()}}
                         </div>
                     </div>
                 </div>

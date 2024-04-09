@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Scout\Searchable;
+
 
 class Product extends Model
 {
     use HasFactory;
     use HasThumbnail;
-
+    use Searchable;
 
     protected $fillable = [
         'slug',
@@ -23,11 +25,51 @@ class Product extends Model
         'price',
         'on_home_page',
         'sorting',
+        'text'
     ];
 
     protected function thumbnailDir(): string
     {
         return 'products';
+    }
+
+    /*#[SearchUsingFullText(['title', 'text'])]
+    public function toSearchableArray(): array
+    {
+        return [
+            //'id' => $this->id,
+            'title' => $this->title,
+            'text' => $this->text,
+
+        ];
+    }*/
+
+    public function scopeFiltered(Builder $query)
+    {
+        $query->when(request('filters.brands'), function (Builder $q) {
+            $q->whereIn('brand_id', array_keys(request('filters.brands')));
+        })->when(request('filters.price'), function (Builder $q) {
+            $q->whereBetween('price', [
+                request('filters.price.from', 0),
+                request('filters.price.to', 100000)
+            ]);
+        });
+    }
+
+    public function scopeSorted(Builder $query)
+    {
+        $query->when(request('sort'), function (Builder $q) {
+            $filters = ['price', '-price', 'title', '-title'];
+            $column = request('sort');
+            if (in_array($column, $filters)) {
+                $direction = 'ASC';
+                if (str_starts_with($column, '-')) {
+                    $direction = 'DESC';
+                    $column = mb_substr($column, 1);
+                }
+                $q->orderBy($column, $direction);
+            }
+        });
     }
 
     public function scopeHomepage(Builder $query)

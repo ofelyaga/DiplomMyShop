@@ -35,7 +35,8 @@
                     <!-- Filters -->
                     <aside class="basis-2/5 xl:basis-1/4">
                         <form action="{{route('catalog', $category)}}"
-                              class="overflow-auto max-h-[320px] lg:max-h-[100%] space-y-10 p-6 2xl:p-8 rounded-2xl bg-card">
+                              class="overflow-auto max-h-[320px] lg:max-h-[100%] space-y-10 p-6 2xl:p-8 rounded-2xl bg-card"
+                              id="filterForm">
                             <!-- Filter item -->
                             <div>
                                 <h5 class="mb-4 text-sm 2xl:text-md font-bold">Цена</h5>
@@ -44,13 +45,17 @@
                                     <span class="text-body text-xxs font-medium">До, ₽</span>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <input type="number"
-                                           class="w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition"
-                                           value="9800" placeholder="От">
+                                    <input
+                                        name="filters[price][from]"
+                                        type="number"
+                                        class="w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition"
+                                        value="{{request('filters.price.from',0)}}" placeholder="От">
                                     <span class="text-body text-sm font-medium">–</span>
-                                    <input type="number"
-                                           class="w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition"
-                                           value="142800" placeholder="До">
+                                    <input
+                                        name="filters[price][to]"
+                                        type="number"
+                                        class="w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition"
+                                        value="{{request('filters.price.to',100000)}}" placeholder="До">
                                 </div>
                             </div>
                             <!-- Filter item -->
@@ -58,7 +63,11 @@
                                 <h5 class="mb-4 text-sm 2xl:text-md font-bold">Бренд</h5>
                                 @foreach($brands as $brand)
                                     <div class="form-checkbox">
-                                        <input name="filters" type="checkbox" id="filters-item-{{$brand->id}}">
+                                        <input name="filters[brands][{{$brand->id}}]"
+                                               type="checkbox"
+                                               @checked(request('filters.brands.'.$brand->id))
+                                               id="filters-item-{{$brand->id}}"
+                                        >
                                         <label for="filters-item-{{$brand->id}}"
                                                class="form-checkbox-label">{{$brand->title}}</label>
                                     </div>
@@ -68,11 +77,13 @@
                                 <button type="submit" class="w-full !h-16 btn btn-outline btn-pink">Поиск</button>
                             </div>
                             <!-- Filter item -->
+                            @if(request('filters'))
 
-                            <div>
-                                <a href="{{route('catalog', $category)}}" class="w-full !h-16 btn btn-outline">Сбросить
-                                    фильтры</a>
-                            </div>
+                                <div>
+                                    <a href="{{route('catalog', $category)}}" class="w-full !h-16 btn btn-outline">Сбросить
+                                        фильтры</a>
+                                </div>
+                            @endif
                         </form>
                     </aside>
 
@@ -90,7 +101,7 @@
                                                   clip-rule="evenodd"/>
                                         </svg>
                                     </a>
-                                    <a href="#"
+                                    <a href="{{route('catalog',$category)}}"
                                        class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-card text-white hover:text-pink">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                              viewBox="0 0 52 52">
@@ -102,17 +113,27 @@
                                 </div>
                                 <div class="text-body text-xxs sm:text-xs">Найдено: {{$products->total()}} товаров</div>
                             </div>
-                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-                                <span class="text-body text-xxs sm:text-xs">Сортировать по</span>
-                                <form action="{{route('catalog', $category)}}">
-                                    <select
-                                        class="form-select w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xxs sm:text-xs shadow-transparent outline-0 transition">
-                                        <option value="умолчанию" class="text-dark">умолчанию</option>
-                                        <option value="умолчанию" class="text-dark">от дешевых к дорогим</option>
-                                        <option value="умолчанию" class="text-dark">от дорогих к дешевым</option>
-                                        <option value="умолчанию" class="text-dark">наименованию</option>
-                                    </select>
-                                </form>
+                            <div x-data="{}" class="flex flex-col sm:flex-row sm:items-center gap-3">
+                                <span class="text-body text-xxs sm:text-xs">Сортировать</span>
+                                <select
+                                    name="sort"
+                                    form="filterForm"
+                                    onchange="this.form.submit()"
+                                    class="form-select w-full h-12 px-4 rounded-lg border border-body/10
+                                    focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xxs
+                                    sm:text-xs shadow-transparent outline-0 transition">
+                                    <option value="" class="text-dark">по умолчанию</option>
+                                    <option @selected(request('sort')==='price') value="price" class="text-dark">от
+                                        дешевых к
+                                        дорогим
+                                    </option>
+                                    <option @selected(request('sort')==='-price') value="-price" class="text-dark">
+                                        от дорогих к дешевым
+                                    </option>
+                                    <option @selected(request('sort')==='title') value="title" class="text-dark">
+                                        по наименованию
+                                    </option>
+                                </select>
                             </div>
                         </div>
 

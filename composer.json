@@ -14,8 +14,10 @@
         "intervention/image-laravel": "*",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/scout": "^10.8",
         "laravel/telescope": "^4.17",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "spatie/laravel-searchable": "^1.12"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.10",
